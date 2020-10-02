@@ -30,12 +30,10 @@ function LoadToken(){
     });
 }
 
-module.exports.DownloadVideo = async function(video_url, options){
+module.exports.DownloadVideo = async function(video_url, options, channel, callback_func){
 
   video_id = Ytdl.getURLVideoID(video_url);
   file_name = CryptoJs.MD5(video_id) + ".mp3";
-
-  console.log(file_name);
 
   let json_options = {};
 
@@ -53,11 +51,8 @@ module.exports.DownloadVideo = async function(video_url, options){
     }
   }
 
-  console.log(json_options);
-  console.log(options);
-
   let stream = Ytdl(video_url, json_options);
-
   stream.pipe(Fs.createWriteStream('../video/' + file_name));
 
+  callback_func(file_name, channel);
 }

@@ -18,6 +18,9 @@ module.exports.GetDiscordClient = function(){
 const Server = require("./server.js");
 const Command = require("./command.js");
 
+const app_version = "1.0";
+module.exports.app_version = app_version;
+
 var discord_token;
 var debug_guild_id = "670299451252015125";
 var debug = false;
@@ -61,13 +64,18 @@ async function LoginToDiscord(){
 
 client.on('ready', () => {
     console.log('I am ready!');
+
+    client.user.setActivity("ytb help", {type: "WATCHING"});
 });
 
 // Create an event listener for messages
 client.on('message', message => {
 
-    if(message.guild.id != debug_guild_id && debug == true || message.guild.id == debug_guild_id && debug == false){
-      return;
+    if(message.channel.type != "dm"){
+
+      if(message.guild.id != debug_guild_id && debug == true || message.guild.id == debug_guild_id && debug == false){
+        return;
+      }
     }
 
     console.log(message.content);
