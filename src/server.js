@@ -18,37 +18,25 @@ function CloseServer(){
 
 function requestListener(request, response){
 
-  console.log("Request " + request);
+  console.log("Request ");
 
   //nom du fichier audio ou video
   var file_name = Url.parse(request.url,true).pathname;
+  file_name = decodeURI(file_name);
   file_name = file_name.replace("/", "");
 
   const file_path = "../video/" + file_name;
-
-  console.log(file_path);
-
-  //let file_stat = Fs.statSync(file_path);
-
-    console.log("y");
 
   response.setHeader('Content-disposition', 'attachment; filename=' + file_name);
 
   var read_stream = Fs.createReadStream(file_path);
   read_stream.pipe(response);
 
-  console.log("r");
-
-  console.log("g");
-
-  //response.download(file_path);
-
-  console.log("t");
 }
 
 const server = Http.createServer(requestListener);
 server.listen(port, () => {
-  console.log(`Server is running on http://${host}:${port}`);
+  console.log(`Server is running on ${host}:${port}`);
 });
 
 process.on("exit", CloseServer);

@@ -44,7 +44,7 @@ module.exports.TreatCommand = async function (command_no_parsed, channel, author
         console.log(options);
       }
 
-      Youtube.DownloadVideo(url, options, channel, ShowFileLink);
+      Youtube.DownloadFromYoutube(url, options, channel, author, ShowFileLink);
 
       break;
 
@@ -93,10 +93,13 @@ function ShowOptions(channel){
   var filters = Youtube.supported_filters;
   var filters_string = filters.join(", ");
 
+  var other_string = "playlist"
+
   var embed_message = new Discord.MessageEmbed();
   embed_message.setColor('#0099ff');
   embed_message.addField("Supported qualities : ", qualities_string);
   embed_message.addField("Supported filters : ", filters_string);
+  embed_message.addField("Other : ", other_string);
 
   embed_message.setTimestamp();
 
@@ -112,7 +115,7 @@ function ShowFileLink(file_name, channel){
   port = Server.port;
 
   file_link = host + ":" + port + "/" + file_name;
-  file_link_field_value = file_link + "\n\n NB : you have one hour to recover your file before deletion."
+  file_link_field_value = file_link + "\n\nNB : you have one hour to recover your file before deletion."
 
   var embed_message = new Discord.MessageEmbed();
   embed_message.setColor('#0099ff');
